@@ -1,5 +1,6 @@
 #include <iostream>
-#include <afxwin.h>
+#include <fstream>
+#include "CDDraw.h"
 #include "ScoreCount.h"
 
 namespace game_framework {
@@ -123,12 +124,10 @@ namespace game_framework {
 		*/
 		pDCp->SelectObject(fpp);						// 放掉 font f (千萬不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-
 	}
 
 	void ScoreCount::showFinal()
 	{
-
 		CDC *pDCp = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CFont fp, *fpp;
 		fp.CreatePointFont(100, "Times New Roman");	// 產生 font f; 160表示16 point的字
@@ -163,7 +162,6 @@ namespace game_framework {
 		*/
 		pDCp->SelectObject(fpp);						// 放掉 font f (千萬不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-
 	}
 
 	void ScoreCount::setPerfect()

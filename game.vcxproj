@@ -257,6 +257,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitmapCursor.cpp" />
+    <ClCompile Include="CAnimation.cpp" />
+    <ClCompile Include="CDDraw.cpp" />
+    <ClCompile Include="CInteger.cpp" />
+    <ClCompile Include="CIntegerCombo.cpp" />
+    <ClCompile Include="CIntegerTimer.cpp" />
+    <ClCompile Include="CMovingBitmap.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Information.cpp" />
@@ -306,6 +312,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitmapCursor.h" />
+    <ClInclude Include="CAnimation.h" />
+    <ClInclude Include="CDDraw.h" />
+    <ClInclude Include="CInteger.h" />
+    <ClInclude Include="CIntegerCombo.h" />
+    <ClInclude Include="CIntegerTimer.h" />
+    <ClInclude Include="CMovingBitmap.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Information.h" />

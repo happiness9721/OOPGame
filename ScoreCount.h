@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include "CInteger.h"
+#include "CIntegerCombo.h"
 
 namespace game_framework {
 	using namespace std;

@@ -45,6 +45,9 @@
 
 //#include <iostream>
 #include <vector>
+#include "../CDDraw.h"
+#include "../CAnimation.h"
+#include "../CIntegerTimer.h"
 #include "../ScoreCount.h"
 #include "../Cursor.h"
 #include "../Information.h"
