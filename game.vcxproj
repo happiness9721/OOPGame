@@ -256,6 +256,12 @@
     <None Include="res\Toolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitmapCursor.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="Information.cpp" />
+    <ClCompile Include="Row.cpp" />
+    <ClCompile Include="ScoreCount.cpp" />
     <ClCompile Include="Source\audio.cpp" />
     <ClCompile Include="Source\game.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -299,6 +305,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BitmapCursor.h" />
+    <ClInclude Include="Cursor.h" />
+    <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="Information.h" />
+    <ClInclude Include="Row.h" />
+    <ClInclude Include="ScoreCount.h" />
     <ClInclude Include="Source\audio.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\gameDoc.h" />

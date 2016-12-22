@@ -1,3 +1,4 @@
+#pragma once
 /*
  * gamelib.h: 本檔案儲遊戲相關的class的interface
  * Copyright (C) 2002-2008 Woei-Kae Chen <wkc@csie.ntut.edu.tw>
@@ -96,6 +97,12 @@ enum GAME_STATES {
 #include <map>
 #include <fstream>
 using namespace std;
+
+/////////////////////////////////////////////////////////////////////////////
+// Header for Customized classes
+/////////////////////////////////////////////////////////////////////////////
+
+#include "../ScoreCount.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // 回報程式錯誤用的macro
@@ -302,175 +309,6 @@ private:
 	static bool isBmpLoaded;				// 是否已經載入圖形
 };
 
-
-/////////////////////////////////////////////////////////////////////////////
-// 記錄成績  
-/////////////////////////////////////////////////////////////////////////////
-
-class ScoreCount {
-
-public:
-	void initialize();
-	void recordMaxCombo(bool);
-	void showScore();
-	void showFinal();   // 結算成績
-	void setPerfect();
-	void setGood();
-	void setMiss();
-	void setTotalScore(int);
-	void setIsMiss(bool);
-	void IsFullCombo();
-	void loseLife();
-	void gainLife();
-	void clearVectors();
-	int  checkGrade();
-
-	bool setDead();
-	bool isDead;
-
-	double getLife();
-	double getScore();
-
-	int tempMaxCombo;
-	int missTimes;
-	int perfectTimes; // 500分
-	int goodTimes; // 300 分
-	int maxCombo;
-
-	ScoreCount operator = (ScoreCount&);
-	CInteger scoreBMP;
-	CInteger judge[3];
-	CIntegerCombo comboBMP;
-
-protected:
-
-	int grade;
-	double totalScore;
-	double life;
-	bool isMiss;
-
-};
-
-
-/////////////////////////////////////////////////////////////////////////////
-// 游標
-/////////////////////////////////////////////////////////////////////////////
-
-
-class Cursor {
-
-public:
-	Cursor();
-	~Cursor();
-	void LoadBitmap();										// 載入圖形
-	void OnMove(double);											// 移動
-	void OnAnimationMove();											//動畫
-	void OnShow(int, int, int);											// 將圖形貼到畫面
-	void Initalize(int);
-	void setBotY(double*);												//設定holdCursor要追蹤的頭
-	double* getY();
-
-private:
-	static CAnimation leftCursor;
-	static CAnimation downCursor;
-	static CAnimation upCursor;
-	static CAnimation rightCursor;
-	static CMovingBitmap SP1;
-	static CMovingBitmap SP2;
-	static CMovingBitmap SP3;
-	static CMovingBitmap leftHoldCursorHead;
-	static CMovingBitmap leftHoldCursorBody;
-	static CMovingBitmap leftHoldCursorBot;
-	static CMovingBitmap downHoldCursorHead;
-	static CMovingBitmap downHoldCursorBody;
-	static CMovingBitmap downHoldCursorBot;
-	static CMovingBitmap upHoldCursorHead;
-	static CMovingBitmap upHoldCursorBody;
-	static CMovingBitmap upHoldCursorBot;
-	static CMovingBitmap rightHoldCursorHead;
-	static CMovingBitmap rightHoldCursorBody;
-	static CMovingBitmap rightHoldCursorBot;
-	static CMovingBitmap mine;
-	static bool	 isLoadBitmap;
-	double x, y;					// 座標
-	double dx, dy;					// 位移量
-	double delay;					// 延遲時間
-	double *botY;
-};
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-// 列游標
-/////////////////////////////////////////////////////////////////////////////
-class Row {
-public:
-	Row();
-	~Row();
-	void SetTime(int);											//設定perfectTime
-	int GetTime();												//取得perfectTime
-	void OnMove(double);
-	void OnAnimationMove();										//動畫
-	void OnShow(int);
-	void initialize(int);
-	int CheckNoteType(int);										//取得是何種cursor
-	void NoteClear(int);										//清掉cursor
-	double* getY(int);											//取得儲存的cursor的y值
-	void setY(double*, int);									//設定holdCursor的y
-	void setMine(int index);									//設定地雷
-	void setSP(int SPtype);										//設定特殊cursor
-
-private:
-	int NoteType[5];											//儲存一行裡面有哪些cursor
-	int perfectTime;
-	vector <Cursor>CursorNote;            //0123  ←按鍵配置
-	void SetCursor(int);
-
-};
-
-/////////////////////////////////////////////////////////////////////////////
-// 歌曲資訊
-/////////////////////////////////////////////////////////////////////////////
-
-class Infomation {
-public:
-	void readFile(string file); // true 檔案存在 false 檔案不存在
-	void initialize();
-	void OnShow();
-	void DeleteRow();
-	void SetTimeRate();
-	void GetRowCountFromFile(string fileName); // 取得總列數
-
-	double GetBpms();
-	double GetOffset();
-	double FormatToDouble(string  tempString); // 將字串轉換成 double
-	double GetTotalTime();
-
-	int GetRowCount(); // 取得總列數
-	int GetTempCursor(int); // 取得產生 row 的整數
-
-	string GetPath();
-	Row *NoteRow;
-	Infomation operator = (Infomation&);
-
-private:
-	//    Row *NoteRow ;
-	string artist;
-	string title;
-	string path;
-	string difficult;
-
-	double bpms;
-	double offset;
-	double totalTime;
-
-	int periodCount; // 間距次數
-	int condition; // 1.title 2.artist 3.music 4.bpms 5.offset 6. totlaTime 7.difficult 8.rowCount
-	int *tempCursor;
-	int rowCount; // 總列數
-};
-
 /////////////////////////////////////////////////////////////////////////////
 // 宣告尚未定義的class
 /////////////////////////////////////////////////////////////////////////////
@@ -494,23 +332,23 @@ public:
 							//
 							// virtual functions, 由繼承者提供implementation
 							//
-	virtual ~CGameState() {}								// virtual destructor
-	virtual void OnBeginState() {}							// 設定每次進入這個狀態時所需的初值
-	virtual void OnInit() {}								// 狀態的初值及圖形設定
-	virtual void OnKeyDown(UINT, UINT, UINT) {}				// 處理鍵盤Down的動作
-	virtual void OnKeyUp(UINT, UINT, UINT) {}				// 處理鍵盤Up的動作
-	virtual void OnKeyRight(UINT, UINT, UINT) {}			// 處理鍵盤Right的動作
-	virtual void OnKeyLeft(UINT, UINT, UINT) {}				// 處理鍵盤Left的動作
-	virtual void OnLButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
-	virtual void OnLButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
-	virtual void OnMouseMove(UINT nFlags, CPoint point) {}  // 處理滑鼠的動作 
-	virtual void OnRButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
-	virtual void OnRButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
-	virtual void SetRecord(ScoreCount) {}
-	virtual void SetSongIndex(int) {}
-	virtual void SetPlayers(int) {}
-	virtual void ClearMusic() {}
-	virtual void SetSpecialMode(bool) {}
+	virtual ~CGameState() {};								// virtual destructor
+	virtual void OnBeginState() {};						// 設定每次進入這個狀態時所需的初值
+	virtual void OnInit() {};							// 狀態的初值及圖形設定
+	virtual void OnKeyDown(UINT, UINT, UINT) {};		// 處理鍵盤Down的動作
+	virtual void OnKeyUp(UINT, UINT, UINT) {};			// 處理鍵盤Up的動作
+	virtual void OnKeyRight(UINT, UINT, UINT) {};		// 處理鍵盤Right的動作
+	virtual void OnKeyLeft(UINT, UINT, UINT) {};		// 處理鍵盤Left的動作
+	virtual void OnLButtonDown(UINT nFlags, CPoint point) {};// 處理滑鼠的動作
+	virtual void OnLButtonUp(UINT nFlags, CPoint point) {};	// 處理滑鼠的動作
+	virtual void OnMouseMove(UINT nFlags, CPoint point) {};  // 處理滑鼠的動作 
+	virtual void OnRButtonDown(UINT nFlags, CPoint point) {}; // 處理滑鼠的動作
+	virtual void OnRButtonUp(UINT nFlags, CPoint point) {};	// 處理滑鼠的動作
+	virtual void SetRecord(ScoreCount) {};
+	virtual void SetSongIndex(int) {};
+	virtual void SetPlayers(int) {};
+	virtual void ClearMusic() {};
+	virtual void SetSpecialMode(bool) {};
 	virtual ScoreCount GetRecordInfo(int);
 	virtual void SetSongPath(string) {};
 
@@ -520,7 +358,7 @@ protected:
 															//
 															// virtual functions, 由繼承者提供implementation
 															//
-	virtual void OnMove() {}								// 移動這個狀態的遊戲元素
+	virtual void OnMove() {};								// 移動這個狀態的遊戲元素
 	virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
 
 	ScoreCount allRecords[2];
@@ -545,8 +383,8 @@ public:
 	bool OnIdle();									// 遊戲的主迴圈
 	void OnKeyDown(UINT, UINT, UINT);				// 處理鍵盤Down的動作
 	void OnKeyUp(UINT, UINT, UINT);					// 處理鍵盤Up的動作
-	void OnKeyRight(UINT, UINT, UINT) {}			// 處理鍵盤Right的動作
-	void OnKeyLeft(UINT, UINT, UINT) {}				// 處理鍵盤Left的動作
+	void OnKeyRight(UINT, UINT, UINT) {};			// 處理鍵盤Right的動作
+	void OnKeyLeft(UINT, UINT, UINT) {};				// 處理鍵盤Left的動作
 	void OnKillFocus();								// 遊戲被迫暫停
 	void OnLButtonDown(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 	void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作

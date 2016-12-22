@@ -560,11 +560,9 @@ void CGameStateOver::OnMove()
 		selected.OnMove();
 		animationCounter-- ;
 	}
-	
-	
 }
 
-void CGameStateOver::SetRecord( ScoreCount tempRecords , int player )
+void CGameStateOver::SetRecord(ScoreCount tempRecords , int player )
 {
 	allRecords2[player] = tempRecords ;
 }
