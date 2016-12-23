@@ -263,6 +263,7 @@
     <ClCompile Include="CIntegerCombo.cpp" />
     <ClCompile Include="CIntegerTimer.cpp" />
     <ClCompile Include="CMovingBitmap.cpp" />
+    <ClCompile Include="CSpecialEffect.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Information.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="CIntegerCombo.h" />
     <ClInclude Include="CIntegerTimer.h" />
     <ClInclude Include="CMovingBitmap.h" />
+    <ClInclude Include="CSpecialEffect.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Information.h" />

@@ -119,13 +119,13 @@
 #include "Resource.h"
 #include <mmsystem.h>
 #include "../CDDraw.h"
+#include "../CSpecialEffect.h"
 #include <ddraw.h>
 #include <direct.h>
 #include <string.h>
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
-
 
 namespace game_framework {
 
@@ -430,45 +430,4 @@ void CGame::SetGameState(int state)
 
 ScoreCount CGame::GetScoreInfo(int index) {
 	return gameStateTable[GAME_STATE_RUN]->GetRecordInfo(index);
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// CSpecialEffect: Specail Effect functions
-// 一般的遊戲並不需直接操作這個物件，因此可以全部略過不看
-/////////////////////////////////////////////////////////////////////////////
-
-DWORD CSpecialEffect::ctime=0;
-int   CSpecialEffect::ctimeCount=0;
-
-void CSpecialEffect::Delay(DWORD ms)
-{
-	DWORD ctime = timeGetTime();
-	int waitms;
-	waitms = ms - (timeGetTime() - ctime);
-	if (waitms > 0)
-		Sleep(waitms);
-}
-
-void CSpecialEffect::DelayFromSetCurrentTime(DWORD ms)
-{
-	int waitms;
-	waitms = ms - (timeGetTime() - ctime);
-	if (waitms > 0)
-		Sleep(waitms);
-}
-
-void CSpecialEffect::SetCurrentTime()
-{
-	ctime = timeGetTime();
-	ctimeCount++;
-}
-
-DWORD CSpecialEffect::GetEllipseTime()
-{
-	return timeGetTime()-ctime;
-}
-
-int CSpecialEffect::GetCurrentTimeCount()
-{
-	return ctimeCount;
 }
