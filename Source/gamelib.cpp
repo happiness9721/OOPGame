@@ -118,8 +118,8 @@
 #include "MainFrm.h"
 #include "Resource.h"
 #include <mmsystem.h>
-#include "../CDDraw.h"
-#include "../CSpecialEffect.h"
+#include "CDDraw.h"
+#include "CSpecialEffect.h"
 #include <ddraw.h>
 #include <direct.h>
 #include <string.h>
@@ -129,305 +129,307 @@
 
 namespace game_framework {
 
-/////////////////////////////////////////////////////////////////////////////
-// 這個class為遊戲的各種狀態之Base class(是一個abstract class)
-/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為遊戲的各種狀態之Base class(是一個abstract class)
+	/////////////////////////////////////////////////////////////////////////////
 
-CGameState::CGameState(CGame *g)
-{
-	game = g; 	// 設定game的pointer
-}
-
-void CGameState::GotoGameState(int state)
-{
-	game->SetGameState(state);
-}
-
-ScoreCount CGameState::GetRecordInfo(int index)
-{
-	return allRecords[index];
-}
-
-void CGameState::ShowInitProgress(int percent)
-{
-	if (!SHOW_LOAD_PROGRESS)
-		return;
-	const int bar_width = SIZE_X * 2 / 3;
-	const int bar_height = SIZE_Y / 20;
-	const int x1 = (SIZE_X - bar_width) / 2;
-	const int x2 = x1 + bar_width;
-	const int y1 = (SIZE_Y - bar_height) / 2;
-	const int y2 = y1 + bar_height;
-	const int pen_width = bar_height / 8;
-	const int progress_x1 = x1 + pen_width;
-	const int progress_x2 = progress_x1 + percent * (bar_width-2*pen_width) / 100;
-	const int progress_x2_end = x2 - pen_width;
-	const int progress_y1 = y1 + pen_width;
-	const int progress_y2 = y2 - pen_width;
-
-	CDDraw::BltBackColor(DEFAULT_BG_COLOR);		// 將 Back Plain 塗上預設的顏色
-	CMovingBitmap loading;						// 貼上loading圖示
-	loading.LoadBitmap(IDB_LOADING, RGB(0,0,0));
-	loading.SetTopLeft((SIZE_X - loading.Width())/2, y1 - 2 * loading.Height());
-	loading.ShowBitmap();
-	//
-	// 以下為CDC的用法
-	//
-	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-	CPen *pp, p(PS_NULL, 0, RGB(0,0,0));		// 清除pen
-	pp = pDC->SelectObject(&p);
-
-	CBrush *pb, b(RGB(0,255,0));				// 畫綠色 progress框
-	pb = pDC->SelectObject(&b);
-	pDC->Rectangle(x1,y1,x2,y2);				
-
-	CBrush b1(DEFAULT_BG_COLOR);				// 畫黑色 progrss中心
-	pDC->SelectObject(&b1);
-	pDC->Rectangle(progress_x1,progress_y1,progress_x2_end,progress_y2);
-
-	CBrush b2(RGB(255,255,0));					// 畫黃色 progrss進度
-	pDC->SelectObject(&b2);
-	pDC->Rectangle(progress_x1,progress_y1,progress_x2,progress_y2);
-
-	pDC->SelectObject(pp);						// 釋放 pen
-	pDC->SelectObject(pb);						// 釋放 brush
-	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-	//
-	// 如果是別的地方用到CDC的話，不要抄以下這行，否則螢幕會閃爍
-	//
-	CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
-}
-
-void CGameState::OnDraw() // Template Method
-{
-	OnShow();
-}
-
-void CGameState::OnCycle() // Template Method
-{
-	OnMove();
-	OnShow();
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// CGame: Game Class
-// 這個class是遊戲的facade，是MFC與各個遊戲狀態的橋樑，如果不增加或減少
-// 遊戲狀態的話，可以不用管這個class的介面與實作。
-/////////////////////////////////////////////////////////////////////////////
-
-CGame CGame::instance;
-
-CGame::CGame()
-	: NUM_GAME_STATES(4)
-{
-	running = true;
-	suspended = false;
-	gameStateTable[GAME_STATE_INIT] = new CGameStateInit(this);
-	gameStateTable[GAME_STATE_MENU] = new CGameStateMenu(this);
-	gameStateTable[GAME_STATE_RUN] = new CGameStateRun(this);
-	gameStateTable[GAME_STATE_OVER] = new CGameStateOver(this);
-	gameState = NULL;
-}
-
-CGame::~CGame()
-{
-	for (int i = 0; i < NUM_GAME_STATES; i++)
-		delete gameStateTable[i];
-}
-
-CGame *CGame::Instance()
-{
-	return &instance;
-}
-
-bool CGame::IsRunning()
-{
-	return running;
-}
-
-void CGame::OnDraw()
-{
-	CDDraw::BltBackColor(DEFAULT_BG_COLOR);	// 將 Back Plain 塗黑
-	gameState->OnDraw();					// 顯示遊戲中的每個元素
-	if (!running) {
-		//
-		// 如果在暫停狀態，則顯示Ctrl-Q...
-		//
-		CMovingBitmap bmp;
-		bmp.LoadBitmap(IDB_CONTINUE);
-		bmp.SetTopLeft(0,0);
-		bmp.ShowBitmap();
+	CGameState::CGameState(CGame *g)
+	{
+		game = g; 	// 設定game的pointer
 	}
-	CDDraw::BltBackToPrimary();				// 將 Back Plain 貼到螢幕
-}
 
-void  CGame::OnFilePause()
-{
-	if (ENABLE_GAME_PAUSE) {
-		if (running)
-			CAudio::Instance()->Pause();
-		else
-			CAudio::Instance()->Resume();
-		running = !running;
-	} else {
-		CAudio::Instance()->Resume();
+	void CGameState::GotoGameState(int state)
+	{
+		game->SetGameState(state);
+	}
+
+	ScoreCount CGameState::GetRecordInfo(int index)
+	{
+		return allRecords[index];
+	}
+
+	void CGameState::ShowInitProgress(int percent)
+	{
+		if (!SHOW_LOAD_PROGRESS)
+			return;
+		const int bar_width = SIZE_X * 2 / 3;
+		const int bar_height = SIZE_Y / 20;
+		const int x1 = (SIZE_X - bar_width) / 2;
+		const int x2 = x1 + bar_width;
+		const int y1 = (SIZE_Y - bar_height) / 2;
+		const int y2 = y1 + bar_height;
+		const int pen_width = bar_height / 8;
+		const int progress_x1 = x1 + pen_width;
+		const int progress_x2 = progress_x1 + percent * (bar_width - 2 * pen_width) / 100;
+		const int progress_x2_end = x2 - pen_width;
+		const int progress_y1 = y1 + pen_width;
+		const int progress_y2 = y2 - pen_width;
+
+		CDDraw::BltBackColor(DEFAULT_BG_COLOR);		// 將 Back Plain 塗上預設的顏色
+		CMovingBitmap loading;						// 貼上loading圖示
+		loading.LoadBitmap(IDB_LOADING, RGB(0, 0, 0));
+		loading.SetTopLeft((SIZE_X - loading.Width()) / 2, y1 - 2 * loading.Height());
+		loading.ShowBitmap();
+		//
+		// 以下為CDC的用法
+		//
+		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		CPen *pp, p(PS_NULL, 0, RGB(0, 0, 0));		// 清除pen
+		pp = pDC->SelectObject(&p);
+
+		CBrush *pb, b(RGB(0, 255, 0));				// 畫綠色 progress框
+		pb = pDC->SelectObject(&b);
+		pDC->Rectangle(x1, y1, x2, y2);
+
+		CBrush b1(DEFAULT_BG_COLOR);				// 畫黑色 progrss中心
+		pDC->SelectObject(&b1);
+		pDC->Rectangle(progress_x1, progress_y1, progress_x2_end, progress_y2);
+
+		CBrush b2(RGB(255, 255, 0));					// 畫黃色 progrss進度
+		pDC->SelectObject(&b2);
+		pDC->Rectangle(progress_x1, progress_y1, progress_x2, progress_y2);
+
+		pDC->SelectObject(pp);						// 釋放 pen
+		pDC->SelectObject(pb);						// 釋放 brush
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		//
+		// 如果是別的地方用到CDC的話，不要抄以下這行，否則螢幕會閃爍
+		//
+		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
+	}
+
+	void CGameState::OnDraw() // Template Method
+	{
+		OnShow();
+	}
+
+	void CGameState::OnCycle() // Template Method
+	{
+		OnMove();
+		OnShow();
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// CGame: Game Class
+	// 這個class是遊戲的facade，是MFC與各個遊戲狀態的橋樑，如果不增加或減少
+	// 遊戲狀態的話，可以不用管這個class的介面與實作。
+	/////////////////////////////////////////////////////////////////////////////
+
+	CGame CGame::instance;
+
+	CGame::CGame()
+		: NUM_GAME_STATES(4)
+	{
 		running = true;
-	}
-}
-
-bool CGame::OnIdle()  // 修改功能不要修改OnIdle()，而應修改OnMove()及OnShow()
-{
-	if (suspended) {
-		running = false;
 		suspended = false;
+		gameStateTable[GAME_STATE_INIT] = new CGameStateInit(this);
+		gameStateTable[GAME_STATE_MENU] = new CGameStateMenu(this);
+		gameStateTable[GAME_STATE_RUN] = new CGameStateRun(this);
+		gameStateTable[GAME_STATE_OVER] = new CGameStateOver(this);
+		gameState = NULL;
 	}
-	//
-	// 控制遊戲是否暫停
-	//
-	if (!running)
-		return false;
-	//
-	// 以下是遊戲的主迴圈
-	//
-	CDDraw::BltBackColor(DEFAULT_BG_COLOR);	// 將 Back Plain 塗上預設的顏色
-	gameState->OnCycle();
-	CDDraw::BltBackToPrimary();				// 將 Back Plain 貼到螢幕
-	//
-	// 以下的程式控制遊戲進行的速度，注意事項：
-	// 1. 用Debug mode可以檢視每一次迴圈花掉的時間，令此時間為t。
-	// 2. 從上次離開OnIdle()至此，時間定為33ms，不可刪除，其時間不可低於t。
-	//
-	if (SHOW_GAME_CYCLE_TIME)
-		TRACE("Ellipse time for the %d th cycle=%d \n", CSpecialEffect::GetCurrentTimeCount(),CSpecialEffect::GetEllipseTime());
-	CSpecialEffect::DelayFromSetCurrentTime(GAME_CYCLE_TIME);
-	CSpecialEffect::SetCurrentTime();	// 設定離開OnIdle()的時間
-	return true;
-}
 
-void CGame::OnInit()	// OnInit() 只在程式一開始時執行一次
-{
-	//
-	// 啟動亂數
-	//
-	srand((unsigned)time(NULL));
-	//
-	// 開啟DirectX繪圖介面
-	//
-	CDDraw::Init(SIZE_X, SIZE_Y);							// 設定遊戲解析度
-	//
-	// 開啟DirectX音效介面
-	//
-	if (!CAudio::Instance()->Open())						// 開啟音效介面
-		AfxMessageBox("Audio Interface Failed (muted)");	// 無音效介面
-	//
-	// Switch to the first state
-	//
-	gameState = gameStateTable[GAME_STATE_INIT];
-	gameState->OnBeginState();
-	CSpecialEffect::SetCurrentTime();
-	running = true;
-}
+	CGame::~CGame()
+	{
+		for (int i = 0; i < NUM_GAME_STATES; i++)
+			delete gameStateTable[i];
+	}
 
-void CGame::OnInitStates()
-{
-	//
-	// 呼叫每個狀態的OnInitialUpdate
-	//
-	for (int i = 0; i < NUM_GAME_STATES; i++)
-		gameStateTable[i]->OnInit();
-}
+	CGame *CGame::Instance()
+	{
+		return &instance;
+	}
 
-void CGame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	if (running)
-		if ((nFlags & 0x4000) == 0) // 去除auto repeat
-			gameState->OnKeyDown(nChar, nRepCnt, nFlags);
-#ifdef _UNITTEST					// invike unit test if _UNITTEST is defined
-	void runTest();
-	if (nChar == 'T')
-		runTest();
-#endif
-}
+	bool CGame::IsRunning()
+	{
+		return running;
+	}
 
-void CGame::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	if (running)
-		gameState->OnKeyUp(nChar, nRepCnt, nFlags);
-}
+	void CGame::OnDraw()
+	{
+		CDDraw::BltBackColor(DEFAULT_BG_COLOR);	// 將 Back Plain 塗黑
+		gameState->OnDraw();					// 顯示遊戲中的每個元素
+		if (!running) {
+			//
+			// 如果在暫停狀態，則顯示Ctrl-Q...
+			//
+			CMovingBitmap bmp;
+			bmp.LoadBitmap(IDB_CONTINUE);
+			bmp.SetTopLeft(0, 0);
+			bmp.ShowBitmap();
+		}
+		CDDraw::BltBackToPrimary();				// 將 Back Plain 貼到螢幕
+	}
 
-void CGame::OnKillFocus()
-{
-	CAudio::Instance()->Pause();
-	if (ENABLE_GAME_PAUSE)
-		running = false;
-	else if (CDDraw::IsFullScreen())
-		running = false;
-}
+	void  CGame::OnFilePause()
+	{
+		if (ENABLE_GAME_PAUSE) {
+			if (running)
+				CAudio::Instance()->Pause();
+			else
+				CAudio::Instance()->Resume();
+			running = !running;
+		}
+		else {
+			CAudio::Instance()->Resume();
+			running = true;
+		}
+	}
 
-void CGame::OnLButtonDown(UINT nFlags, CPoint point)
-{
-	if (running)
-		gameState->OnLButtonDown(nFlags, point);
-}
+	bool CGame::OnIdle()  // 修改功能不要修改OnIdle()，而應修改OnMove()及OnShow()
+	{
+		if (suspended) {
+			running = false;
+			suspended = false;
+		}
+		//
+		// 控制遊戲是否暫停
+		//
+		if (!running)
+			return false;
+		//
+		// 以下是遊戲的主迴圈
+		//
+		CDDraw::BltBackColor(DEFAULT_BG_COLOR);	// 將 Back Plain 塗上預設的顏色
+		gameState->OnCycle();
+		CDDraw::BltBackToPrimary();				// 將 Back Plain 貼到螢幕
+		//
+		// 以下的程式控制遊戲進行的速度，注意事項：
+		// 1. 用Debug mode可以檢視每一次迴圈花掉的時間，令此時間為t。
+		// 2. 從上次離開OnIdle()至此，時間定為33ms，不可刪除，其時間不可低於t。
+		//
+		if (SHOW_GAME_CYCLE_TIME)
+			TRACE("Ellipse time for the %d th cycle=%d \n", CSpecialEffect::GetCurrentTimeCount(), CSpecialEffect::GetEllipseTime());
+		CSpecialEffect::DelayFromSetCurrentTime(GAME_CYCLE_TIME);
+		CSpecialEffect::SetCurrentTime();	// 設定離開OnIdle()的時間
+		return true;
+	}
 
-void CGame::OnRButtonDown(UINT nFlags, CPoint point)
-{
-	if (running)
-		gameState->OnRButtonDown(nFlags, point);
-}
-
-void CGame::OnLButtonUp(UINT nFlags, CPoint point)
-{
-	if (running)
-		gameState->OnLButtonUp(nFlags, point);
-}
-
-void CGame::OnMouseMove(UINT nFlags, CPoint point)
-{
-	if (running)
-		gameState->OnMouseMove(nFlags, point);
-}
-
-void CGame::OnRButtonUp(UINT nFlags, CPoint point)
-{
-	if (running)
-		gameState->OnRButtonUp(nFlags, point);
-}
-
-void CGame::OnResume()
-{
-	//
-	// Note: the resume message is not synchronized with the other messages
-	//
-}
-
-void CGame::OnSetFocus()
-{
-	if (!ENABLE_GAME_PAUSE) {
-		CAudio::Instance()->Resume();
+	void CGame::OnInit()	// OnInit() 只在程式一開始時執行一次
+	{
+		//
+		// 啟動亂數
+		//
+		srand((unsigned)time(NULL));
+		//
+		// 開啟DirectX繪圖介面
+		//
+		CDDraw::Init(SIZE_X, SIZE_Y);							// 設定遊戲解析度
+		//
+		// 開啟DirectX音效介面
+		//
+		if (!CAudio::Instance()->Open())						// 開啟音效介面
+			AfxMessageBox("Audio Interface Failed (muted)");	// 無音效介面
+		//
+		// Switch to the first state
+		//
+		gameState = gameStateTable[GAME_STATE_INIT];
+		gameState->OnBeginState();
+		CSpecialEffect::SetCurrentTime();
 		running = true;
 	}
-}
 
-void CGame::OnSuspend()
-{
-	//
-	// Note: the suspend message is not synchronized with the other messages
-	//
-	suspended = true;
-	CAudio::Instance()->SetPowerResume();
-}
+	void CGame::OnInitStates()
+	{
+		//
+		// 呼叫每個狀態的OnInitialUpdate
+		//
+		for (int i = 0; i < NUM_GAME_STATES; i++)
+			gameStateTable[i]->OnInit();
+	}
 
-void CGame::SetGameState(int state)
-{
-	ASSERT(state >=0 && state < NUM_GAME_STATES);
-	gameState = gameStateTable[state];
-	gameState->OnBeginState();
-	OnDraw();
-	CSpecialEffect::SetCurrentTime();
-	running = true;
-}
+	void CGame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		if (running)
+			if ((nFlags & 0x4000) == 0) // 去除auto repeat
+				gameState->OnKeyDown(nChar, nRepCnt, nFlags);
+#ifdef _UNITTEST					// invike unit test if _UNITTEST is defined
+		void runTest();
+		if (nChar == 'T')
+			runTest();
+#endif
+	}
 
-ScoreCount CGame::GetScoreInfo(int index) {
-	return gameStateTable[GAME_STATE_RUN]->GetRecordInfo(index);
+	void CGame::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		if (running)
+			gameState->OnKeyUp(nChar, nRepCnt, nFlags);
+	}
+
+	void CGame::OnKillFocus()
+	{
+		CAudio::Instance()->Pause();
+		if (ENABLE_GAME_PAUSE)
+			running = false;
+		else if (CDDraw::IsFullScreen())
+			running = false;
+	}
+
+	void CGame::OnLButtonDown(UINT nFlags, CPoint point)
+	{
+		if (running)
+			gameState->OnLButtonDown(nFlags, point);
+	}
+
+	void CGame::OnRButtonDown(UINT nFlags, CPoint point)
+	{
+		if (running)
+			gameState->OnRButtonDown(nFlags, point);
+	}
+
+	void CGame::OnLButtonUp(UINT nFlags, CPoint point)
+	{
+		if (running)
+			gameState->OnLButtonUp(nFlags, point);
+	}
+
+	void CGame::OnMouseMove(UINT nFlags, CPoint point)
+	{
+		if (running)
+			gameState->OnMouseMove(nFlags, point);
+	}
+
+	void CGame::OnRButtonUp(UINT nFlags, CPoint point)
+	{
+		if (running)
+			gameState->OnRButtonUp(nFlags, point);
+	}
+
+	void CGame::OnResume()
+	{
+		//
+		// Note: the resume message is not synchronized with the other messages
+		//
+	}
+
+	void CGame::OnSetFocus()
+	{
+		if (!ENABLE_GAME_PAUSE) {
+			CAudio::Instance()->Resume();
+			running = true;
+		}
+	}
+
+	void CGame::OnSuspend()
+	{
+		//
+		// Note: the suspend message is not synchronized with the other messages
+		//
+		suspended = true;
+		CAudio::Instance()->SetPowerResume();
+	}
+
+	void CGame::SetGameState(int state)
+	{
+		ASSERT(state >= 0 && state < NUM_GAME_STATES);
+		gameState = gameStateTable[state];
+		gameState->OnBeginState();
+		OnDraw();
+		CSpecialEffect::SetCurrentTime();
+		running = true;
+	}
+
+	ScoreCount CGame::GetScoreInfo(int index) {
+		return gameStateTable[GAME_STATE_RUN]->GetRecordInfo(index);
+	}
 }

@@ -1,4 +1,6 @@
+#include "StdAfx.h"
 #include "CIntegerCombo.h"
+#include "gamelib.h"
 
 namespace game_framework {
 	CMovingBitmap CIntegerCombo::digit[10];

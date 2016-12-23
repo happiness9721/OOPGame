@@ -1,4 +1,6 @@
+#include "StdAfx.h"
 #include "CAnimation.h"
+#include "gamelib.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////

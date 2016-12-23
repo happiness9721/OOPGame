@@ -1,5 +1,6 @@
-
+#include "StdAfx.h"
 #include "CSpecialEffect.h"
+#include <timeapi.h>
 
 namespace game_framework {
 

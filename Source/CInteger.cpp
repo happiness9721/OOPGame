@@ -1,4 +1,7 @@
+#include "StdAfx.h"
 #include "CInteger.h"
+#include "gamelib.h"
+#include "resource.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////

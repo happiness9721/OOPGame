@@ -1,4 +1,3 @@
-#pragma once
 /*
  * gamelib.h: 本檔案儲遊戲相關的class的interface
  * Copyright (C) 2002-2008 Woei-Kae Chen <wkc@csie.ntut.edu.tw>
@@ -102,7 +101,7 @@ using namespace std;
 // Header for Customized classes
 /////////////////////////////////////////////////////////////////////////////
 
-#include "../ScoreCount.h"
+#include "ScoreCount.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // 回報程式錯誤用的macro

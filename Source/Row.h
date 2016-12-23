@@ -1,8 +1,7 @@
-#pragma once
-#include <string>
-#include <iostream>
+#include "StdAfx.h"
 #include <vector>
 #include "Cursor.h"
+using namespace std;
 
 namespace game_framework {
 

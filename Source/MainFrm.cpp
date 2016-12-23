@@ -36,7 +36,7 @@
 #include <direct.h>
 #include <string.h>
 #include "gamelib.h"
-#include  "../CDDraw.h"
+#include "CDDraw.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

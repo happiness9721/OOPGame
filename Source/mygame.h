@@ -45,12 +45,12 @@
 
 //#include <iostream>
 #include <vector>
-#include "../CDDraw.h"
-#include "../CAnimation.h"
-#include "../CIntegerTimer.h"
-#include "../ScoreCount.h"
-#include "../Cursor.h"
-#include "../Information.h"
+#include "CDDraw.h"
+#include "CAnimation.h"
+#include "CIntegerTimer.h"
+#include "ScoreCount.h"
+#include "Cursor.h"
+#include "Information.h"
 
 enum AUDIO_ID {				// 定義各種音效的編號
 	AUDIO_SELECT,				// 0

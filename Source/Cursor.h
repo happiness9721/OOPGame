@@ -1,6 +1,5 @@
 #pragma once
-#include "Source\gamelib.h"
-#include "Source\StdAfx.h"
+#include "CAnimation.h"
 
 namespace game_framework {
 

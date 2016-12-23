@@ -271,7 +271,5 @@ _Pvt_Extensions
 *.exe
 *.out
 *.app
-/Bitmaps/cursor
 /Bitmaps/Thumbs.db
-/game.vcxproj.filters
 /game.VC.db

@@ -1,11 +1,8 @@
-#include <iostream>
-#include <fstream>
-#include "CDDraw.h"
+#include "StdAfx.h"
 #include "ScoreCount.h"
+#include "CDDraw.h"
 
 namespace game_framework {
-
-	using namespace std;
 
 	//////////////////////////////////////////////////////////////////////////////
 	// ¦¨ÁZ°O¿ý 

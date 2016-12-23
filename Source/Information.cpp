@@ -1,5 +1,9 @@
-#include "Source\StdAfx.h"
+#include "StdAfx.h"
 #include "Information.h"
+#include <fstream>
+#include "CDDraw.h"
+
+using namespace std;
 
 namespace game_framework {
 

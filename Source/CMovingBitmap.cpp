@@ -1,4 +1,7 @@
+#include "StdAfx.h"
 #include "CMovingBitmap.h"
+#include "gamelib.h"
+#include "CDDraw.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////

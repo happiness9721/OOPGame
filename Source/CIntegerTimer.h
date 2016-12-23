@@ -1,4 +1,3 @@
-#pragma once
 #include "CMovingBitmap.h"
 
 namespace game_framework {

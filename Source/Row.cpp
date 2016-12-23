@@ -1,4 +1,4 @@
-#include "Source\StdAfx.h"
+#include "StdAfx.h"
 #include "Row.h"
 
 namespace game_framework {

@@ -1,6 +1,8 @@
 #pragma once
+#include "StdAfx.h"
 #include <list>
 #include "CMovingBitmap.h"
+using namespace std;
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////

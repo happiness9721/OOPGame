@@ -1,4 +1,4 @@
-#pragma once
+#include "StdAfx.h"
 
 namespace game_framework {
 

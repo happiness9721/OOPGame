@@ -1,5 +1,6 @@
-#pragma once
+#include "StdAfx.h"
 #include "Row.h"
+using namespace std;
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////

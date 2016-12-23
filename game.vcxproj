@@ -228,7 +228,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Res\ball.bmp" />
+    <None Include="RES\ball.bmp" />
     <None Include="RES\bmp0.bmp" />
     <None Include="RES\bmp1.bmp" />
     <None Include="RES\bmp10.bmp" />
@@ -246,29 +246,27 @@
     <None Include="RES\eraser1.bmp" />
     <None Include="RES\eraser2.bmp" />
     <None Include="RES\eraser3.bmp" />
-    <None Include="res\game.ico" />
-    <None Include="res\game.rc2" />
+    <None Include="RES\game.ico" />
+    <None Include="RES\game.rc2" />
     <None Include="RES\gamecurs.cur" />
-    <None Include="res\gameDoc.ico" />
+    <None Include="RES\gameDoc.ico" />
     <None Include="RES\help.bmp" />
     <None Include="RES\loading.bmp" />
     <None Include="RES\ntutcsie.bmp" />
-    <None Include="res\Toolbar.bmp" />
+    <None Include="RES\Toolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BitmapCursor.cpp" />
-    <ClCompile Include="CAnimation.cpp" />
-    <ClCompile Include="CDDraw.cpp" />
-    <ClCompile Include="CInteger.cpp" />
-    <ClCompile Include="CIntegerCombo.cpp" />
-    <ClCompile Include="CIntegerTimer.cpp" />
-    <ClCompile Include="CMovingBitmap.cpp" />
-    <ClCompile Include="CSpecialEffect.cpp" />
-    <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="GameTimer.cpp" />
-    <ClCompile Include="Information.cpp" />
-    <ClCompile Include="Row.cpp" />
-    <ClCompile Include="ScoreCount.cpp" />
+    <ClCompile Include="Source\CAnimation.cpp" />
+    <ClCompile Include="Source\CDDraw.cpp" />
+    <ClCompile Include="Source\CInteger.cpp" />
+    <ClCompile Include="Source\CIntegerCombo.cpp" />
+    <ClCompile Include="Source\CIntegerTimer.cpp" />
+    <ClCompile Include="Source\CMovingBitmap.cpp" />
+    <ClCompile Include="Source\CSpecialEffect.cpp" />
+    <ClCompile Include="Source\Cursor.cpp" />
+    <ClCompile Include="Source\Information.cpp" />
+    <ClCompile Include="Source\Row.cpp" />
+    <ClCompile Include="Source\ScoreCount.cpp" />
     <ClCompile Include="Source\audio.cpp" />
     <ClCompile Include="Source\game.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -312,19 +310,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BitmapCursor.h" />
-    <ClInclude Include="CAnimation.h" />
-    <ClInclude Include="CDDraw.h" />
-    <ClInclude Include="CInteger.h" />
-    <ClInclude Include="CIntegerCombo.h" />
-    <ClInclude Include="CIntegerTimer.h" />
-    <ClInclude Include="CMovingBitmap.h" />
-    <ClInclude Include="CSpecialEffect.h" />
-    <ClInclude Include="Cursor.h" />
-    <ClInclude Include="GameTimer.h" />
-    <ClInclude Include="Information.h" />
-    <ClInclude Include="Row.h" />
-    <ClInclude Include="ScoreCount.h" />
+    <ClInclude Include="Source\CAnimation.h" />
+    <ClInclude Include="Source\CDDraw.h" />
+    <ClInclude Include="Source\CInteger.h" />
+    <ClInclude Include="Source\CIntegerCombo.h" />
+    <ClInclude Include="Source\CIntegerTimer.h" />
+    <ClInclude Include="Source\CMovingBitmap.h" />
+    <ClInclude Include="Source\CSpecialEffect.h" />
+    <ClInclude Include="Source\Cursor.h" />
+    <ClInclude Include="Source\Information.h" />
+    <ClInclude Include="Source\Row.h" />
+    <ClInclude Include="Source\ScoreCount.h" />
     <ClInclude Include="Source\audio.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\gameDoc.h" />

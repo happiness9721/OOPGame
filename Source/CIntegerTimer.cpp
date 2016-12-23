@@ -1,4 +1,6 @@
+#include "StdAfx.h"
 #include "CIntegerTimer.h"
+#include "gamelib.h"
 
 namespace game_framework {
 	CMovingBitmap CIntegerTimer::digit[10];

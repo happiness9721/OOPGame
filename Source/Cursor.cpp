@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "Cursor.h"
 
 namespace game_framework {

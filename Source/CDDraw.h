@@ -1,5 +1,8 @@
 #pragma once
+#include "StdAfx.h"
 #include <vector>
+#include <ddraw.h>
+using namespace std;
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
