@@ -38,7 +38,7 @@ namespace game_framework {
 		int goodTimes; // 300 ¤À
 		int maxCombo;
 
-		ScoreCount operator = (ScoreCount&);
+		void operator = (ScoreCount);
 		CInteger scoreBMP;
 		CInteger judge[3];
 		CIntegerCombo comboBMP;

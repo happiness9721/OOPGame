@@ -1,16 +1,23 @@
 #include "StdAfx.h"
 #include "Cursor.h"
+#include <vector>
 
 namespace game_framework {
 	
 	//////////////////////////////////////////////////////////////////////////////
 	// 游標 
 	///////////////////////////////////////////////////////////////////////////////
-	bool Cursor::isLoadBitmap = false;
-	CAnimation Cursor::leftCursor;
-	CAnimation Cursor::downCursor;
-	CAnimation Cursor::upCursor;
-	CAnimation Cursor::rightCursor;
+	Cursor::Cursor()
+	{
+		leftCursor = CAnimation();
+		downCursor = CAnimation();
+		upCursor = CAnimation();
+		rightCursor = CAnimation();
+	}
+
+	Cursor::~Cursor()
+	{
+	}
 	CMovingBitmap Cursor::leftHoldCursorHead;
 	CMovingBitmap Cursor::leftHoldCursorBody;
 	CMovingBitmap Cursor::leftHoldCursorBot;
@@ -27,14 +34,6 @@ namespace game_framework {
 	CMovingBitmap Cursor::SP1;
 	CMovingBitmap Cursor::SP2;
 	CMovingBitmap Cursor::SP3;
-
-	Cursor::Cursor()
-	{
-	}
-
-	Cursor::~Cursor()
-	{
-	}
 	void Cursor::Initalize(int position)
 	{
 		x = position;
@@ -45,34 +44,37 @@ namespace game_framework {
 	}
 	void Cursor::LoadBitmap()
 	{
+		static bool isLoadBitmap = false;
+		static vector<CMovingBitmap> leftCursors = vector<CMovingBitmap>();
+		static vector<CMovingBitmap> downCursors = vector<CMovingBitmap>();
+		static vector<CMovingBitmap> upCursors = vector<CMovingBitmap>();
+		static vector<CMovingBitmap> rightCursors = vector<CMovingBitmap>();
+
 		if (!isLoadBitmap)
 		{
-			char s[2];
-			char s2[80];
+			char filename[80];
 			for (int i = 1; i < 17; i++)
 			{
-				sprintf(s, "%d", i);
-				strcpy(s2, "Bitmaps/cursor/leftCursor(");
-				strcat(s2, s);
-				strcat(s2, ").bmp");
-				leftCursor.AddBitmap(s2, RGB(255, 255, 254));
-				strcpy(s2, "Bitmaps/cursor/downCursor(");
-				strcat(s2, s);
-				strcat(s2, ").bmp");
-				downCursor.AddBitmap(s2, RGB(255, 255, 254));
-				strcpy(s2, "Bitmaps/cursor/upCursor(");
-				strcat(s2, s);
-				strcat(s2, ").bmp");
-				upCursor.AddBitmap(s2, RGB(255, 255, 254));
-				strcpy(s2, "Bitmaps/cursor/rightCursor(");
-				strcat(s2, s);
-				strcat(s2, ").bmp");
-				rightCursor.AddBitmap(s2, RGB(255, 255, 254));
+				sprintf(filename, "Bitmaps/cursor/leftCursor(%d).bmp", i);
+				CMovingBitmap leftCursorBmp = CMovingBitmap();
+				leftCursorBmp.LoadBitmap(filename, RGB(255, 255, 254));
+				leftCursors.push_back(leftCursorBmp);
+
+				sprintf(filename, "Bitmaps/cursor/downCursor(%d).bmp", i);
+				CMovingBitmap downCursorBmp = CMovingBitmap();
+				downCursorBmp.LoadBitmap(filename, RGB(255, 255, 254));
+				downCursors.push_back(downCursorBmp);
+
+				sprintf(filename, "Bitmaps/cursor/upCursor(%d).bmp", i);
+				CMovingBitmap upCursorBmp = CMovingBitmap();
+				upCursorBmp.LoadBitmap(filename, RGB(255, 255, 254));
+				upCursors.push_back(upCursorBmp);
+
+				sprintf(filename, "Bitmaps/cursor/rightCursor(%d).bmp", i);
+				CMovingBitmap rightCursorBmp = CMovingBitmap();
+				rightCursorBmp.LoadBitmap(filename, RGB(255, 255, 254));
+				rightCursors.push_back(rightCursorBmp);
 			}
-			leftCursor.SetDelayCount(10);
-			downCursor.SetDelayCount(10);
-			upCursor.SetDelayCount(10);
-			rightCursor.SetDelayCount(10);
 			downHoldCursorHead.LoadBitmap("Bitmaps/cursor/Down Hold Head Inactive.bmp", RGB(255, 255, 255));
 			downHoldCursorBody.LoadBitmap("Bitmaps/cursor/Down Hold Body Inactive.bmp", RGB(255, 255, 255));
 			downHoldCursorBot.LoadBitmap("Bitmaps/cursor/Down Hold BottomCap Inactive.bmp", RGB(255, 255, 255));
@@ -91,18 +93,27 @@ namespace game_framework {
 			SP3.LoadBitmap("Bitmaps/cursor/SPcursor4.bmp", RGB(0, 0, 0));
 			isLoadBitmap = true;
 		}
+
+		for (int i = 0; i < 16; i++)
+		{
+			leftCursor.AddBitmap(leftCursors[i]);
+			downCursor.AddBitmap(downCursors[i]);
+			upCursor.AddBitmap(upCursors[i]);
+			rightCursor.AddBitmap(rightCursors[i]);
+		}
+		leftCursor.SetDelayCount(10);
+		downCursor.SetDelayCount(10);
+		upCursor.SetDelayCount(10);
+		rightCursor.SetDelayCount(10);
 	}
 	void Cursor::OnMove(double bpms)
-	{
-		dy = (double)(420 / (4 * 60 * 60 / bpms));           //總移動時間為8個beat間隔，在8個beat間隔之前就要顯示note
-		y -= dy;
-	}
-	void Cursor::OnAnimationMove()
 	{
 		leftCursor.OnMove();
 		rightCursor.OnMove();
 		upCursor.OnMove();
 		downCursor.OnMove();
+		dy = (double)(420 / (4 * 60 * 60 / bpms));           //總移動時間為8個beat間隔，在8個beat間隔之前就要顯示note
+		y -= dy;
 	}
 	void Cursor::OnShow(int noteType, int index, int player)
 	{

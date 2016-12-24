@@ -28,28 +28,25 @@ namespace game_framework {
 		NoteType[4] = 0;
 		SetCursor(4);
 	}
-	void Row::SetCursor(int i) {
+	void Row::SetCursor(int i) 
+	{
 		CursorNote[i].LoadBitmap();
 		CursorNote[i].Initalize(i * 64);
 	}
-	void Row::OnShow(int player) {
+	void Row::OnShow(int player) 
+	{
 		for (int i = 0; i < 5; i++)
 		{
 			CursorNote[i].OnShow(NoteType[i], i, player);
 		}
 	}
-	void Row::OnMove(double bpms) {
+	void Row::OnMove(double bpms) 
+	{
 		for (int i = 0; i < 5; i++)
 		{
 			CursorNote[i].OnMove(bpms);
 		}
 	}
-
-	void Row::OnAnimationMove()
-	{
-		CursorNote[0].OnAnimationMove();
-	}
-
 	int Row::CheckNoteType(int i)
 	{
 		return NoteType[i];

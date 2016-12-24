@@ -228,31 +228,12 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="RES\ball.bmp" />
-    <None Include="RES\bmp0.bmp" />
-    <None Include="RES\bmp1.bmp" />
-    <None Include="RES\bmp10.bmp" />
-    <None Include="RES\bmp2.bmp" />
-    <None Include="RES\bmp3.bmp" />
-    <None Include="RES\bmp4.bmp" />
-    <None Include="RES\bmp5.bmp" />
-    <None Include="RES\bmp6.bmp" />
-    <None Include="RES\bmp7.bmp" />
-    <None Include="RES\bmp8.bmp" />
-    <None Include="RES\bmp9.bmp" />
-    <None Include="RES\center.bmp" />
     <None Include="RES\continue.bmp" />
-    <None Include="Res\corner.bmp" />
-    <None Include="RES\eraser1.bmp" />
-    <None Include="RES\eraser2.bmp" />
-    <None Include="RES\eraser3.bmp" />
     <None Include="RES\game.ico" />
     <None Include="RES\game.rc2" />
     <None Include="RES\gamecurs.cur" />
     <None Include="RES\gameDoc.ico" />
-    <None Include="RES\help.bmp" />
     <None Include="RES\loading.bmp" />
-    <None Include="RES\ntutcsie.bmp" />
     <None Include="RES\Toolbar.bmp" />
   </ItemGroup>
   <ItemGroup>

@@ -1103,7 +1103,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			down[i].OnMove();
 			SPcursor[i].OnMove();
 		}
-		music[0].NoteRow[0].OnAnimationMove();
 	}
 	else
 	{
@@ -1824,8 +1823,8 @@ void CGameStateMenu::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	ShowInitProgress(33);
 
-	background[0].LoadBitmap(IDB_BACKGROUND,RGB(0,0,0)) ;
-	background[1].LoadBitmap("Bitmaps/black.bmp") ;
+	background[0].LoadBitmap("Bitmaps/Background.bmp", RGB(0,0,0));
+	background[1].LoadBitmap("Bitmaps/black.bmp");
 	timer.LoadBitmap();
 	timer.SetInteger(99) ;
 	timer.SetTopLeft(565,20);

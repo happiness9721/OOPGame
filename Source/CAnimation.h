@@ -17,6 +17,7 @@ namespace game_framework {
 		// 增加一張圖形至動畫(圖的編號及透明色)
 		void  AddBitmap(char *, COLORREF = CLR_INVALID);
 		// 增加一張圖形至動畫(圖的編號及透明色)
+		void  AddBitmap(CMovingBitmap add_bmp);
 		int   GetCurrentBitmapNumber();	// 取得正在撥放的bitmap是第幾個bitmap
 		int   Height();					// 取得動畫的高度
 		bool  IsFinalBitmap();			// 回傳正在撥放的bitmap是否為最後一個bitmap

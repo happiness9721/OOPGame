@@ -12,8 +12,7 @@ namespace game_framework {
 
 	CMovingBitmap CInteger::digit[11];
 	bool CInteger::isBmpLoaded = false;
-	CInteger::CInteger(int digits)
-		: NUMDIGITS(digits)
+	CInteger::CInteger(int digits): NUMDIGITS(digits)
 	{
 		isBmpLoaded = false;
 	}
@@ -39,7 +38,19 @@ namespace game_framework {
 		// digit[i]為class varibale，所以必須避免重複LoadBitmap
 		//
 		if (!isBmpLoaded) {
-			int d[11] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS };
+			char* d[11] = { 
+				"Bitmaps/numbers/0.bmp",
+				"Bitmaps/numbers/1.bmp",
+				"Bitmaps/numbers/2.bmp",
+				"Bitmaps/numbers/3.bmp",
+				"Bitmaps/numbers/4.bmp",
+				"Bitmaps/numbers/5.bmp",
+				"Bitmaps/numbers/6.bmp",
+				"Bitmaps/numbers/7.bmp",
+				"Bitmaps/numbers/8.bmp",
+				"Bitmaps/numbers/9.bmp",
+				"Bitmaps/numbers/00.bmp"
+			};
 			for (int i = 0; i < 11; i++)
 				digit[i].LoadBitmap(d[i], RGB(255, 255, 255));
 			isBmpLoaded = true;

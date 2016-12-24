@@ -15,7 +15,6 @@ namespace game_framework {
 		void SetTime(int);											//設定perfectTime
 		int GetTime();												//取得perfectTime
 		void OnMove(double);
-		void OnAnimationMove();										//動畫
 		void OnShow(int);
 		void initialize(int);
 		int CheckNoteType(int);										//取得是何種cursor

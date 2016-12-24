@@ -34,6 +34,12 @@ namespace game_framework {
 		Reset();
 	}
 
+	void CAnimation::AddBitmap(CMovingBitmap add_bmp)
+	{
+		bmp.insert(bmp.end(), add_bmp);
+		Reset();
+	}
+
 	int CAnimation::GetCurrentBitmapNumber()
 	{
 		return bmp_counter;

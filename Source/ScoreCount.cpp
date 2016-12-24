@@ -78,9 +78,18 @@ namespace game_framework {
 		return totalScore;
 	}
 
-	ScoreCount ScoreCount::operator=(ScoreCount &)
+	void ScoreCount::operator=(ScoreCount sourceScoreCount)
 	{
-		return ScoreCount();
+		tempMaxCombo = sourceScoreCount.tempMaxCombo;
+		missTimes = sourceScoreCount.missTimes;
+		perfectTimes = sourceScoreCount.perfectTimes;
+		goodTimes = sourceScoreCount.goodTimes;
+		maxCombo = sourceScoreCount.maxCombo;
+
+		grade = sourceScoreCount.grade;
+		totalScore = sourceScoreCount.totalScore;
+		life = sourceScoreCount.life;
+		isMiss = sourceScoreCount.isMiss;
 	}
 
 	void ScoreCount::showScore()
