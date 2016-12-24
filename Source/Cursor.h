@@ -11,6 +11,7 @@ namespace game_framework {
 	public:
 		Cursor();
 		~Cursor();
+
 		void LoadBitmap();										// 載入圖形
 		void OnMove(double);											// 移動
 		void OnShow(int, int, int);											// 將圖形貼到畫面

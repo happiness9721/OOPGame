@@ -155,6 +155,9 @@
     <ClInclude Include="Source\CInteger.h">
       <Filter>GameLibrary</Filter>
     </ClInclude>
+    <ClInclude Include="Source\cursor_enum.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\game.rc">

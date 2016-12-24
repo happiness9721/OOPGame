@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "Cursor.h"
 #include <vector>
+#include "cursor_enum.h"
+using namespace cursor_enum;
 
 namespace game_framework {
 	
@@ -18,6 +20,7 @@ namespace game_framework {
 	Cursor::~Cursor()
 	{
 	}
+
 	CMovingBitmap Cursor::leftHoldCursorHead;
 	CMovingBitmap Cursor::leftHoldCursorBody;
 	CMovingBitmap Cursor::leftHoldCursorBot;
@@ -34,14 +37,15 @@ namespace game_framework {
 	CMovingBitmap Cursor::SP1;
 	CMovingBitmap Cursor::SP2;
 	CMovingBitmap Cursor::SP3;
+
 	void Cursor::Initalize(int position)
 	{
 		x = position;
 		y = 480;
 		dx = 0;
 		dy = 0;
-
 	}
+
 	void Cursor::LoadBitmap()
 	{
 		static bool isLoadBitmap = false;
@@ -75,6 +79,7 @@ namespace game_framework {
 				rightCursorBmp.LoadBitmap(filename, RGB(255, 255, 254));
 				rightCursors.push_back(rightCursorBmp);
 			}
+
 			downHoldCursorHead.LoadBitmap("Bitmaps/cursor/Down Hold Head Inactive.bmp", RGB(255, 255, 255));
 			downHoldCursorBody.LoadBitmap("Bitmaps/cursor/Down Hold Body Inactive.bmp", RGB(255, 255, 255));
 			downHoldCursorBot.LoadBitmap("Bitmaps/cursor/Down Hold BottomCap Inactive.bmp", RGB(255, 255, 255));
@@ -101,50 +106,55 @@ namespace game_framework {
 			upCursor.AddBitmap(upCursors[i]);
 			rightCursor.AddBitmap(rightCursors[i]);
 		}
+
 		leftCursor.SetDelayCount(10);
 		downCursor.SetDelayCount(10);
 		upCursor.SetDelayCount(10);
 		rightCursor.SetDelayCount(10);
 	}
+
 	void Cursor::OnMove(double bpms)
 	{
 		leftCursor.OnMove();
 		rightCursor.OnMove();
 		upCursor.OnMove();
 		downCursor.OnMove();
-		dy = (double)(420 / (4 * 60 * 60 / bpms));           //總移動時間為8個beat間隔，在8個beat間隔之前就要顯示note
+		dy = (double)(420 / (4 * 60 * 60 / bpms));  //總移動時間為8個beat間隔，在8個beat間隔之前就要顯示note
 		y -= dy;
 	}
+
 	void Cursor::OnShow(int noteType, int index, int player)
 	{
 		int i = 1;
 		switch (noteType)
 		{
-		case 1:
+		case NOTE_TYPE::NORMAL:
 			switch (index)
 			{
-			case 0:
+			case NOTE_INDEX::LEFT:
 				leftCursor.SetTopLeft((int)x + player * 384, (int)y);
 				leftCursor.OnShow();
 				break;
-			case 1:
+			case NOTE_INDEX::DOWN:
 				downCursor.SetTopLeft((int)x + player * 384, (int)y);
 				downCursor.OnShow();
 				break;
-			case 2:
+			case NOTE_INDEX::UP:
 				upCursor.SetTopLeft((int)x + player * 384, (int)y);
 				upCursor.OnShow();
 				break;
-			default:
+			case NOTE_INDEX::RIGHT:
 				rightCursor.SetTopLeft((int)x + player * 384, (int)y);
 				rightCursor.OnShow();
 				break;
+			default:
+				break;
 			}
 			break;
-		case 2:
+		case NOTE_TYPE::LONG_PRESS_1:
 			switch (index)
 			{
-			case 0:
+			case NOTE_INDEX::LEFT:
 				while (y + i * leftHoldCursorBody.Height() < int(*botY))
 				{
 					leftHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + leftHoldCursorBody.Height()*i));
@@ -156,7 +166,7 @@ namespace game_framework {
 				leftHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				leftHoldCursorHead.ShowBitmap();
 				break;
-			case 1:
+			case NOTE_INDEX::DOWN:
 				while (y + i * downHoldCursorBody.Height() < int(*botY))
 				{
 					downHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + downHoldCursorBody.Height()*i));
@@ -168,7 +178,7 @@ namespace game_framework {
 				downHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				downHoldCursorHead.ShowBitmap();
 				break;
-			case 2:
+			case NOTE_INDEX::UP:
 				while (y + i * upHoldCursorBody.Height() < int(*botY))
 				{
 					upHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + upHoldCursorBody.Height()*i));
@@ -180,7 +190,7 @@ namespace game_framework {
 				upHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				upHoldCursorHead.ShowBitmap();
 				break;
-			default:
+			case NOTE_INDEX::RIGHT:
 				while (y + i * rightHoldCursorBody.Height() < int(*botY))
 				{
 					rightHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + rightHoldCursorBody.Height()*i));
@@ -192,13 +202,16 @@ namespace game_framework {
 				rightHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				rightHoldCursorHead.ShowBitmap();
 				break;
+			default:
+				break;
 			}
-		case 3:
+		case NOTE_TYPE::UNKNOWN:
 			break;
-		case 4:
+
+		case NOTE_TYPE::LONG_PRESS_2:
 			switch (index)
 			{
-			case 0:
+			case NOTE_INDEX::LEFT:
 				while (y + i * leftHoldCursorBody.Height() < int(*botY))
 				{
 					leftHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + leftHoldCursorBody.Height()*i));
@@ -210,7 +223,7 @@ namespace game_framework {
 				leftHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				leftHoldCursorHead.ShowBitmap();
 				break;
-			case 1:
+			case NOTE_INDEX::DOWN:
 				while (y + i * downHoldCursorBody.Height() < int(*botY))
 				{
 					downHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + downHoldCursorBody.Height()*i));
@@ -222,7 +235,7 @@ namespace game_framework {
 				downHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				downHoldCursorHead.ShowBitmap();
 				break;
-			case 2:
+			case NOTE_INDEX::UP:
 				while (y + i * upHoldCursorBody.Height() < int(*botY))
 				{
 					upHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + upHoldCursorBody.Height()*i));
@@ -234,7 +247,7 @@ namespace game_framework {
 				upHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				upHoldCursorHead.ShowBitmap();
 				break;
-			default:
+			case NOTE_INDEX::RIGHT:
 				while (y + i * rightHoldCursorBody.Height() < int(*botY))
 				{
 					rightHoldCursorBody.SetTopLeft((int)x + player * 384, (int)(y + rightHoldCursorBody.Height()*i));
@@ -246,27 +259,28 @@ namespace game_framework {
 				rightHoldCursorHead.SetTopLeft((int)x + player * 384, (int)y);
 				rightHoldCursorHead.ShowBitmap();
 				break;
+			default:
+				break;
 			}
-		case 5:
+		case NOTE_TYPE::MINE:
 			mine.SetTopLeft((int)x + player * 384, (int)y);
 			mine.ShowBitmap();
 			break;
-		case 6:
+		case NOTE_TYPE::SP1:
 			SP1.SetTopLeft((int)x + player * 64, (int)y);
 			SP1.ShowBitmap();
 			break;
-		case 7:
+		case NOTE_TYPE::SP2:
 			SP2.SetTopLeft((int)x + player * 64, (int)y);
 			SP2.ShowBitmap();
 			break;
-		case 8:
+		case NOTE_TYPE::SP3:
 			SP3.SetTopLeft((int)x + player * 64, (int)y);
 			SP3.ShowBitmap();
 			break;
 		default:
 			break;
 		}
-
 	}
 
 	void Cursor::setBotY(double * yy)

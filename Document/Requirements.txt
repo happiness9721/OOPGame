@@ -1,0 +1,14 @@
+﻿/////////////////////////////////////
+//          Requirements           //
+/////////////////////////////////////
+
+# Notice :
+# Add requirements down below, such as "User can setup speed after the song is selected." 
+# Can write them down in both English or Chinese.
+# After the requirement is done, you can write the word "Done" after it.
+
+#2016.12.25
+1. User can setup speed after the song is selected.
+
+#2016.12.24
+1. Make long-press marker disappeared if it is pressed.

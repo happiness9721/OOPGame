@@ -299,6 +299,7 @@
     <ClInclude Include="Source\CMovingBitmap.h" />
     <ClInclude Include="Source\CSpecialEffect.h" />
     <ClInclude Include="Source\Cursor.h" />
+    <ClInclude Include="Source\cursor_enum.h" />
     <ClInclude Include="Source\Information.h" />
     <ClInclude Include="Source\Row.h" />
     <ClInclude Include="Source\ScoreCount.h" />
